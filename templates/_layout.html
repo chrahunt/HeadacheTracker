@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{% block title %}{% endblock %}</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+	</head>
+	<body>
+		<nav class="navbar navbar-default navbar-fixed-top" role="nav">
+			<div class="container">
+				<div class="navbar-header">
+					<a href="#" class="navbar-brand">
+						<span class="logo"></span>
+					</a>
+				</div>
+				<ol class="nav navbar-nav navbar-right">
+					<li class="active">
+						<a href="#">Home</a>
+					</li>
+					<li>
+						<a href="#">Register</a>
+					</li>
+					<li>
+						<a href="#">Login</a>
+					</li>
+				</ol>
+			</div>
+		</nav>
+
+		{% block content %}{% endblock %}
+		<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	</body>
+</html>

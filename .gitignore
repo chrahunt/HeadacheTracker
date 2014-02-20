@@ -1,5 +1,8 @@
 *.py[cod]
 
+# vim temp files
+*.swp
+
 # venv
 venv/
 
