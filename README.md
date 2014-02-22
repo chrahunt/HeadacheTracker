@@ -25,3 +25,5 @@ Activate the virtual environment
 Then install project dependencies using
 
     pip install -r requirements.txt
+
+Set up the database by sourcing `database.sql` from within mysql.
