@@ -1,0 +1,15 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+  
+<h1>Login</h1>  
+
+  <form method = "POST" action = "/homepage">
+    <table>
+	    <tr><td><input type="text" placeholder="Username" name="username" /></td></tr>
+		  <tr><td><input type="password" placeholder="Password" name="password" /></td></tr>
+      <tr><td><input type="submit" value="Login" /></td></tr>
+    </table>	
+  </form>
+
+{% endblock %}

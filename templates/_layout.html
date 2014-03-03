@@ -14,15 +14,12 @@
 					</a>
 				</div>
 				<ol class="nav navbar-nav navbar-right">
-					<li class="active">
-						<a href="#">Home</a>
-					</li>
-					<li>
-						<a href="#">Register</a>
-					</li>
-					<li>
-						<a href="#">Login</a>
-					</li>
+          <li  {% if selectedNav == "Home" %} class="active" {% endif %}  >
+            <a href="/">Home</a></li>
+          <li  {% if selectedNav == "Register" %} class="active" {% endif %}  >
+            <a href="#">Register</a></li>
+          <li  {% if selectedNav == "Login" %} class="active" {% endif %}  >
+            <a href="/login">{% if loggedIn == "true" %}Logout{% else %}Login{% endif %}</a></li>
 				</ol>
 			</div>
 		</nav>
