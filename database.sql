@@ -9,13 +9,11 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
 	id INT NOT NULL AUTO_INCREMENT,
 	username VARCHAR(50) NOT NULL,
-	password VARCHAR(50) NOT NULL,
+	l_username VARCHAR(50) NOT NULL,
+	password_hash CHAR(64) NOT NULL,
+	salt CHAR(12) NOT NULL,
 	first_name VARCHAR(50),
 	last_name VARCHAR(50),
 	PRIMARY KEY(id)
 );
 
--- Test user.
-INSERT INTO users (username, password, first_name, last_name) VALUES
-	('a', 'a', 'John', 'Smith'),
-	('b', 'b', 'Jane', 'Smith');
