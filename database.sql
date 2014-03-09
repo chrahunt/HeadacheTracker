@@ -14,6 +14,6 @@ CREATE TABLE users (
 	salt CHAR(12) NOT NULL,
 	first_name VARCHAR(50),
 	last_name VARCHAR(50),
+	email VARCHAR(64),
 	PRIMARY KEY(id)
 );
-

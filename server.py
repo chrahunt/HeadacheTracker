@@ -1,9 +1,8 @@
 from flask import Flask, session, request, escape, redirect, url_for, render_template
 import MySQLdb 
-import random
-import hashlib
 
-from utils import db_connect
+from utils import db_connect, get_salt, phash
+from forms.user_forms import RegistrationForm
 
 app = Flask(__name__)
 
@@ -13,8 +12,10 @@ app.secret_key = 'DS_34*^DS3*90!_ji*217*#NV'
 def index():
 	if 'logged' in session:
 		return redirect(url_for('homepage'))
-	return render_template("index.html", selectedNav='Home', loggedIn='false')
+	form = RegistrationForm()
+	return render_template("index.html", selectedNav='Home', loggedIn='false', form=form)
 
+# TODO: Need to create a separate logout route/method.
 @app.route("/login", methods=['GET','POST'])
 def login(): 
 	if 'logged' in session:
@@ -24,54 +25,35 @@ def login():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-	if request.method == 'POST':
-		return registration_controller(request)
+	form = RegistrationForm(request.form)
+	if request.method == 'POST' and form.validate():
+		db = db_connect()
+		cur = db.cursor()
+		salt = get_salt()
+		password_hash = phash(form.password.data + salt)
+		# TODO: Clean up this handling.
+		# Handles case where email is not present, inserts NULL below.
+		# Notice lack of single quotes in query which facilitates this.
+		if form.email.data != "":
+			email = "'{}'".format(form.email.data)
+		else:
+			email = "NULL"
+
+		query = "INSERT INTO users (username, l_username, password_hash, salt, email) " \
+				"VALUES ('{username}', LOWER('{username}'), '{password_hash}', " \
+				"'{salt}', {email})".format(
+						username=form.username.data,
+						password_hash=password_hash,
+						salt=salt,
+						email=email
+					)
+		cur.execute(query)
+		db.commit()
+
+		session['logged'] = form.username.data
+		return redirect(url_for('homepage'))
 	
-	return render_template("register.html", selectedNav='Register')
-
-def registration_controller(request):
-	username = request.form['username']
-	password1 = request.form['password1']
-	password2 = request.form['password2']
-	password = ""
-	email = request.form['email']
-	errors = []
-	error = False
-	db = db_connect()
-	cur = db.cursor()
-
-	# Check that passwords match
-	if password1 != password2:
-		errors.append("The passwords don't match!")
-		error = True
-	else:
-		password = password1
-		# Check that password meets length requirements
-		if password.length() < 6:
-			errors.append("That password is too short (minimum of 6 characters.")
-			error = True
-
-		# TODO: Check that password meets complexity requirements
-		
-	# Check that username is not taken
-	# TODO: String escape
-	query = "SELECT COUNT(*) FROM users WHERE l_username=LOWER('" + username + "')"
-	cur.execute(query)
-
-	userInfo = cur.fetchone()
-	print userInfo
-
-	# If there is an error, redirect back to the page and pass in the error messages
-
-	# Otherwise, generate a salt, hash the password, store everything in the
-	# database, set the logged session variable
-
-	# Add the email address to the user. Should this 
-	if error:
-		return render_template("register.html", selectedNav='Register', errors=errors)
-	else:
-		# Set logged in user
-		return render_template("homepage.html", selectedNav='Home')
+	return render_template("register.html", selectedNav='Register', form=form)
 
 @app.route("/homepage", methods=['GET','POST'])
 def homepage():
