@@ -58,24 +58,19 @@ def register():
 @app.route("/homepage", methods=['GET','POST'])
 def homepage():
 	db = db_connect()
-	cur = db.cursor()
+	cur = db.cursor(MySQLdb.cursors.DictCursor)
 	
 	if request.method == 'POST':
 		session['logged'] = request.form['username']
 		
-	query = "SELECT * FROM users WHERE username='" + session['logged'] + "'"
+	query = "SELECT username, first_name AS firstname, last_name AS lastname FROM users WHERE username='" + session['logged'] + "'"
 	print query
 	cur.execute(query)
 	
 	userInfo = cur.fetchone()
 	
-	allInfo = {
-		'username' : userInfo[1],
-		'password' : userInfo[2],
-		'firstname' : userInfo[3],
-		'lastname' : userInfo[4]
-	}
-		
+	allInfo = userInfo
+	
 	return render_template("homepage.html", selectedNav='Home', allInfo=allInfo, loggedIn='true')
 
 @app.route("/dbsample")
