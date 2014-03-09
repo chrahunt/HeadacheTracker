@@ -1,3 +1,4 @@
+/* Global settings */
 body {
   padding-top: 50px;
 }
@@ -10,6 +11,16 @@ body {
 	width: 25px;
 }
 
+.sole-content {
+	margin-top: 25px;
+}
+
+/* Login */
+.errors {
+	list-style: none;
+}
+
+/* Homepage */
 .sub-header {
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
@@ -52,12 +63,14 @@ body {
 .main {
   padding: 20px;
 }
+
 @media (min-width: 768px) {
   .main {
     padding-right: 40px;
     padding-left: 40px;
   }
 }
+
 .main .page-header {
   margin-top: 0;
 }

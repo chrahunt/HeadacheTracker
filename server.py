@@ -2,7 +2,7 @@ from flask import Flask, session, request, escape, redirect, url_for, render_tem
 import MySQLdb 
 
 from utils import db_connect, get_salt, phash
-from forms.user_forms import RegistrationForm
+from forms.user_forms import RegistrationForm, LoginForm
 
 app = Flask(__name__)
 
@@ -13,15 +13,29 @@ def index():
 	if 'logged' in session:
 		return redirect(url_for('homepage'))
 	form = RegistrationForm()
-	return render_template("index.html", selectedNav='Home', loggedIn='false', form=form)
+	return render_template("index.html", selectedNav='Home', form=form)
 
 # TODO: Need to create a separate logout route/method.
 @app.route("/login", methods=['GET','POST'])
 def login(): 
+	form = LoginForm(request.form)
+
+	# In case some authenticated user navigates to this page.
 	if 'logged' in session:
 		session.pop('logged', None)
-		return redirect(url_for('index'))
-	return render_template("login.html", selectedNav='Login')
+	
+	if request.method == 'POST' and form.validate():
+		session['logged'] = form.username.data
+		return redirect(url_for('homepage'))
+
+	return render_template("login.html", selectedNav='Login', form=form)
+
+@app.route("/logout")
+def logout():
+	if 'logged' in session:
+		session.pop('logged', None)
+	
+	return redirect(url_for('index'))
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -71,7 +85,7 @@ def homepage():
 	
 	allInfo = userInfo
 	
-	return render_template("homepage.html", selectedNav='Home', allInfo=allInfo, loggedIn='true')
+	return render_template("homepage.html", selectedNav='Home', allInfo=allInfo, loggedIn=True)
 
 @app.route("/dbsample")
 def dbsample():
