@@ -2,7 +2,85 @@
 {% block title %}
 Homepage
 {% endblock %}
-
 {% block content %}
-<h1>Homepage of {{allInfo.firstname}} {{allInfo.lastname}}!</h1>
+<div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Main</a></li>
+            <li><a href="#">Link 1</a></li>
+            <li><a href="#">Link 2</a></li>
+            <li><a href="#">Link 3</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Link 4</a></li>
+            <li><a href="">Link 5</a></li>
+            <li><a href="">Link 6</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Link 7</a></li>
+            <li><a href="">Link 8</a></li>
+            <li><a href="">Link 9</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Homepage of {{allInfo.firstname}} {{allInfo.lastname}}!</h1>
+
+          <div class="row">
+            <div class="col-xs-12 col-sm-6">
+              Placeholder graph for later content
+              <img class="img-responsive" src="{{ url_for('static', filename='images/line-graph.png') }}">
+            </div>
+          </div>
+          
+          <h3>Add occurrence</h3>
+          <form class="form-inline" method="POST" action="" role="form">
+                <input type="date" class="form-control" name="date"/>
+                <input type="text" class="form-control" placeholder="Symptom" name="symptom"/>
+                <input type="time" class="form-control" placeholder="Start time" name="start"/>
+                <input type="time" class="form-control" placeholder="End time" name="end"/>
+                <input type="number" class="form-control" name="severity" min="1" max="10" step="1" value="1"/>
+                <button type="submit" class="btn btn-primary">Add</button>
+          </form>
+          
+          <h2 class="sub-header">History</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Symptom</th>
+                  <th>Start</th>
+                  <th>End</th>
+                  <th>Severity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>3/1/14</td>
+                  <td>Headache</td>
+                  <td>3:12pm</td>
+                  <td>4:57pm</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>2/27/14</td>
+                  <td>Migraine</td>
+                  <td>10:41am</td>
+                  <td>2:15pm</td>
+                  <td>9</td>
+                </tr>
+                <tr>
+                  <td>2/15/14</td>
+                  <td>Headache</td>
+                  <td>6:18pm</td>
+                  <td>7:43pm</td>
+                  <td>4</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
 {% endblock %}
