@@ -17,3 +17,16 @@ CREATE TABLE users (
 	email VARCHAR(64),
 	PRIMARY KEY(id)
 );
+
+DROP TABLE IF EXISTS headache_entries;
+CREATE TABLE headache_entries (
+	id INT NOT NULL AUTO_INCREMENT,
+	entry_start DATETIME NOT NULL,
+	entry_end DATETIME NULL,
+	severity INT NOT NULL,
+	user_id INT NOT NULL,
+	CONSTRAINT headache_entry_user_id_fk
+	FOREIGN KEY (user_id)
+	REFERENCES users (id),
+	PRIMARY KEY(id)
+);
