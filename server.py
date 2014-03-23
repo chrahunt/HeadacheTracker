@@ -87,6 +87,10 @@ def homepage():
 	
 	return render_template("homepage.html", selectedNav='Home', allInfo=allInfo, loggedIn=True)
 
+@app.route("/export", methods=['GET', 'POST'])
+def export():
+	return render_template("export.html")
+
 @app.route("/dbsample")
 def dbsample():
 	db = db_connect()
