@@ -9,8 +9,8 @@ SET FOREIGN_KEY_CHECKS=1;
 /* Set up users. */
 INSERT INTO users (username, l_username, password_hash, salt) VALUES
 ('chris', LOWER('chris'), SHA2('password000000000000', 256), '000000000000'),
-('seth', LOWER('chris'), SHA2('password000000000000', 256), '000000000000'),
-('bryan', LOWER('chris'), SHA2('password000000000000', 256), '000000000000');
+('seth', LOWER('seth'), SHA2('password000000000000', 256), '000000000000'),
+('bryan', LOWER('bryan'), SHA2('password000000000000', 256), '000000000000');
 
 /* Get user IDs. */
 SELECT id FROM users WHERE username = 'chris' INTO @chris_id;

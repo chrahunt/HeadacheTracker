@@ -69,6 +69,26 @@ def register():
 	
 	return render_template("register.html", selectedNav='Register', form=form)
 
+@app.route("/add_entry", methods=['GET', 'POST'])
+def addEntry():
+	db = db_connect()
+	cur = db.cursor()
+
+	if request.method == "POST":
+		start_datetime = request.form['date'] + " " + request.form['start']
+		end_datetime = request.form['date'] + " " + request.form['end']
+		query = "SELECT id FROM users WHERE username='" + session['logged'] + "'"
+		cur.execute(query)
+		user_id = cur.fetchone()
+		print user_id		
+		
+		query = "INSERT INTO headache_entries (entry_start, entry_end, severity, user_id) VALUES ('" + start_datetime + "', '" + end_datetime + "', '" + request.form['severity'] + "', '" + str(user_id[0]) + "')"
+		print query
+		cur.execute(query)
+		db.commit()
+		
+	return redirect(url_for('homepage'))
+
 @app.route("/homepage", methods=['GET','POST'])
 def homepage():
 	db = db_connect()
@@ -84,8 +104,14 @@ def homepage():
 	userInfo = cur.fetchone()
 	
 	allInfo = userInfo
+
+	query = "SELECT entry_start, entry_end, severity FROM headache_entries WHERE user_id = (SELECT id FROM users WHERE username='" + session['logged'] + "') ORDER BY entry_start DESC"
+	print query
+	cur.execute(query)
+
+	entries = cur.fetchall()
 	
-	return render_template("homepage.html", selectedNav='Home', allInfo=allInfo, loggedIn=True)
+	return render_template("homepage.html", selectedNav='Home', allInfo=allInfo, entries=entries, loggedIn=True)
 
 @app.route("/dbsample")
 def dbsample():
