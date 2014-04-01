@@ -1,5 +1,7 @@
-from flask import Flask, session, request, escape, redirect, url_for, render_template
+from flask import Flask, session, request, escape, redirect, url_for, render_template, Response
 import MySQLdb 
+import csv
+import StringIO
 
 from utils import db_connect, get_salt, phash
 from forms.user_forms import RegistrationForm, LoginForm
@@ -112,6 +114,34 @@ def homepage():
 	entries = cur.fetchall()
 	
 	return render_template("homepage.html", selectedNav='Home', allInfo=allInfo, entries=entries, loggedIn=True)
+
+@app.route("/export", methods=['GET', 'POST'])
+def export():
+	# Request for export data.
+	if request.method == 'POST':
+		db = db_connect()
+		cur = db.cursor(MySQLdb.cursors.DictCursor);
+		query = "SELECT DATE(h.entry_start) AS start_date, TIME(h.entry_start) AS start_time, DATE(h.entry_end) AS end_date, TIME(h.entry_end) AS end_time, h.severity FROM headache_entries h JOIN users u ON h.user_id = u.id WHERE u.l_username = LOWER('{}')".format(session['logged'])
+		cur.execute(query)
+		# Get all entries at once.
+		entries = cur.fetchall();
+
+		# Save results parsed as csv to file in-memory.
+		string_buffer = StringIO.StringIO()
+		w = csv.DictWriter(string_buffer, entries[0].keys())
+		w.writeheader()
+		w.writerows(entries)
+		csv_content = string_buffer.getvalue()
+		string_buffer.close()
+
+		# Response with export data.
+		return Response(csv_content,
+				mimetype="text/csv",
+				headers={
+					"Content-Disposition": "attachment;filename=export.csv"
+					})
+
+	return render_template("export.html")
 
 @app.route("/dbsample")
 def dbsample():

@@ -1,81 +1,57 @@
-{% extends "_layout.html" %}
+{% extends "_user_layout.html" %}
 {% block title %}
 Homepage
 {% endblock %}
-{% block content %}
-<div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Main</a></li>
-            <li><a href="#">Link 1</a></li>
-            <li><a href="#">Link 2</a></li>
-            <li><a href="#">Link 3</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Link 4</a></li>
-            <li><a href="">Link 5</a></li>
-            <li><a href="">Link 6</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Link 7</a></li>
-            <li><a href="">Link 8</a></li>
-            <li><a href="">Link 9</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Homepage of {{allInfo.firstname}} {{allInfo.lastname}}!</h1>
+{% block inner_content %}
+<h1 class="page-header">Homepage of {{allInfo.firstname}} {{allInfo.lastname}}!</h1>
 
-          <div class="row">
-            <div class="col-xs-12 col-sm-6">
-              Placeholder graph for later content
-              <img class="img-responsive" src="{{ url_for('static', filename='images/line-graph.png') }}">
-            </div>
-          </div>
-          
-          <h3>Add occurrence</h3>
-          <form class="form-inline" method="POST" action="/add_entry" role="form">
-                <input type="date" class="form-control" name="date"/>
-                <input type="text" class="form-control" placeholder="Symptom" name="symptom"/>
-                <input type="time" class="form-control" placeholder="Start time" name="start"/>
-                <input type="time" class="form-control" placeholder="End time" name="end"/>
-                <input type="number" class="form-control" name="severity" min="1" max="10" step="1" value="1"/>
-                <button type="submit" class="btn btn-primary">Add</button>
-          </form>
-          
-          <h2 class="sub-header">History</h2>
-		<form class="form-inline" method="" action="" role="form">
-			<select name="history">
-			<option value="5">5</option>
-			<option value="10">10</option>
-			<option value="15">15</option>
-			<option value="25">25</option>
-			</select>
-			<button type="submit">Refresh</button>
-		</form>
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Symptom</th>
-                  <th>Start</th>
-                  <th>End</th>
-                  <th>Severity</th>
-                </tr>
-              </thead>
-              <tbody>
+<div class="row">
+	<div class="col-xs-12 col-sm-6">
+		Placeholder graph for later content
+		<img class="img-responsive" src="{{ url_for('static', filename='images/line-graph.png') }}">
+	</div>
+</div>
+  
+<h3>Add occurrence</h3>
+<form class="form-inline" method="POST" action="/add_entry" role="form">
+	<input type="date" class="form-control" name="date"/>
+	<input type="text" class="form-control" placeholder="Symptom" name="symptom"/>
+	<input type="time" class="form-control" placeholder="Start time" name="start"/>
+	<input type="time" class="form-control" placeholder="End time" name="end"/>
+	<input type="number" class="form-control" name="severity" min="1" max="10" step="1" value="1"/>
+	<button type="submit" class="btn btn-primary">Add</button>
+</form>
+
+<h2 class="sub-header">History</h2>
+<form class="form-inline" method="" action="" role="form">
+	<select name="history">
+		<option value="5">5</option>
+		<option value="10">10</option>
+		<option value="15">15</option>
+		<option value="25">25</option>
+	</select>
+	<button type="submit">Refresh</button>
+</form>
+<div class="table-responsive">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Symptom</th>
+				<th>Start</th>
+				<th>End</th>
+				<th>Severity</th>
+			</tr>
+		</thead>
+		<tbody>
 		{% for entry in entries %}
-                <tr>
-                  <td>Headache</td>
-                  <td>{{entry.entry_start}}</td>
-                  <td>{{entry.entry_end}}</td>
-                  <td>{{entry.severity}}</td>
-                </tr>
-               	{% endfor %}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+			<tr>
+				<td>Headache</td>
+				<td>{{entry.entry_start}}</td>
+				<td>{{entry.entry_end}}</td>
+				<td>{{entry.severity}}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
 {% endblock %}
