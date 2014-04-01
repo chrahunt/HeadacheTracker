@@ -34,7 +34,7 @@ Homepage
           </div>
           
           <h3>Add occurrence</h3>
-          <form class="form-inline" method="POST" action="" role="form">
+          <form class="form-inline" method="POST" action="/add_entry" role="form">
                 <input type="date" class="form-control" name="date"/>
                 <input type="text" class="form-control" placeholder="Symptom" name="symptom"/>
                 <input type="time" class="form-control" placeholder="Start time" name="start"/>
@@ -44,11 +44,19 @@ Homepage
           </form>
           
           <h2 class="sub-header">History</h2>
+		<form class="form-inline" method="" action="" role="form">
+			<select name="history">
+			<option value="5">5</option>
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="25">25</option>
+			</select>
+			<button type="submit">Refresh</button>
+		</form>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>Date</th>
                   <th>Symptom</th>
                   <th>Start</th>
                   <th>End</th>
@@ -56,27 +64,14 @@ Homepage
                 </tr>
               </thead>
               <tbody>
+		{% for entry in entries %}
                 <tr>
-                  <td>3/1/14</td>
                   <td>Headache</td>
-                  <td>3:12pm</td>
-                  <td>4:57pm</td>
-                  <td>5</td>
+                  <td>{{entry.entry_start}}</td>
+                  <td>{{entry.entry_end}}</td>
+                  <td>{{entry.severity}}</td>
                 </tr>
-                <tr>
-                  <td>2/27/14</td>
-                  <td>Migraine</td>
-                  <td>10:41am</td>
-                  <td>2:15pm</td>
-                  <td>9</td>
-                </tr>
-                <tr>
-                  <td>2/15/14</td>
-                  <td>Headache</td>
-                  <td>6:18pm</td>
-                  <td>7:43pm</td>
-                  <td>4</td>
-                </tr>
+               	{% endfor %}
               </tbody>
             </table>
           </div>
