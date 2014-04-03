@@ -55,10 +55,13 @@ def register():
 		else:
 			email = "NULL"
 
-		query = "INSERT INTO users (username, l_username, password_hash, salt, email) " \
-				"VALUES ('{username}', LOWER('{username}'), '{password_hash}', " \
-				"'{salt}', {email})".format(
+		query = "INSERT INTO users (username, l_username, first_name, " \
+				"last_name, password_hash, salt, email) VALUES " \
+				"('{username}', LOWER('{username}'), '{first_name}', " \
+				"'{last_name}', '{password_hash}', '{salt}', {email})".format(
 						username=form.username.data,
+						first_name=form.first_name.data,
+						last_name=form.last_name.data,
 						password_hash=password_hash,
 						salt=salt,
 						email=email

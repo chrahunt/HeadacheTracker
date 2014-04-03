@@ -13,7 +13,9 @@ class RegistrationForm(Form):
 		validators.Length(min=5, max=64)
 	])
 	confirm = PasswordField('Repeat Password')
-	
+	first_name = StringField('First Name', [validators.Required()])
+	last_name = StringField('Last Name', [validators.Required()])
+
 	# Check that username is not already taken.
 	# TODO: Check that username has proper format.
 	def validate_username(form, field):
