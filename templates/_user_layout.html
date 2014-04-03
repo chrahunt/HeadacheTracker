@@ -1,4 +1,9 @@
 {% extends "_layout.html" %}
+{# Override default navigation bar. #}
+{% set navigation_bar = [
+	(url_for('homepage'), 'home', 'Home'),
+	(url_for('logout'), 'logout', 'Logout')
+] -%}
 {% block title %}
 Homepage
 {% endblock %}
@@ -6,21 +11,16 @@ Homepage
 <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
+		  {# Navigation menu for sidebar. #}
+		  {% set sidebar_navigation_menu = sidebar_navigation_menu|default([
+		  	(url_for('homepage'), 'homepage', 'Main'),
+			(url_for('export'), 'export', 'Export')
+		  ]) -%}
           <ul class="nav nav-sidebar">
-			  <li class="active"><a href="{{ url_for('homepage') }}">Main</a></li>
-			  <li><a href="{{ url_for('export') }}">Export</a></li>
-            <li><a href="#">Link 2</a></li>
-            <li><a href="#">Link 3</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Link 4</a></li>
-            <li><a href="">Link 5</a></li>
-            <li><a href="">Link 6</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Link 7</a></li>
-            <li><a href="">Link 8</a></li>
-            <li><a href="">Link 9</a></li>
+			{% set sidebar_active = sidebar_active|default('homepage') %}
+			{% for href, id, caption in sidebar_navigation_menu %}
+				<li {% if sidebar_active == id %} class="active" {% endif %} id="{{ id }}"><a href="{{ href }}">{{ caption }}</a></li>
+			{% endfor %}
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

@@ -15,7 +15,7 @@ def index():
 	if 'logged' in session:
 		return redirect(url_for('homepage'))
 	form = RegistrationForm()
-	return render_template("index.html", selectedNav='Home', form=form)
+	return render_template("index.html", form=form)
 
 # TODO: Need to create a separate logout route/method.
 @app.route("/login", methods=['GET','POST'])
@@ -30,7 +30,7 @@ def login():
 		session['logged'] = form.username.data
 		return redirect(url_for('homepage'))
 
-	return render_template("login.html", selectedNav='Login', form=form)
+	return render_template("login.html", form=form)
 
 @app.route("/logout")
 def logout():
@@ -69,7 +69,7 @@ def register():
 		session['logged'] = form.username.data
 		return redirect(url_for('homepage'))
 	
-	return render_template("register.html", selectedNav='Register', form=form)
+	return render_template("register.html", form=form)
 
 @app.route("/add_entry", methods=['GET', 'POST'])
 def addEntry():
@@ -113,7 +113,7 @@ def homepage():
 
 	entries = cur.fetchall()
 	
-	return render_template("homepage.html", selectedNav='Home', allInfo=allInfo, entries=entries, loggedIn=True)
+	return render_template("homepage.html", allInfo=allInfo, entries=entries, loggedIn=True)
 
 @app.route("/export", methods=['GET', 'POST'])
 def export():

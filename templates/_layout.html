@@ -16,20 +16,18 @@
 						<span class="logo"></span>
 					</a>
 				</div>
+				{% set navigation_bar = navigation_bar|default([
+					(url_for('index'), 'home', 'Home'),
+					(url_for('register'), 'register', 'Register'),
+					(url_for('login'), 'login', 'Login')
+				]) -%}
 				<ol class="nav navbar-nav navbar-right">
-					<li	{% if selectedNav == "Home" %} class="active" {% endif %}	>
-						<a href="/">Home</a>
+					{% set main_active = main_active|default('home') %}
+					{% for href, id, caption in navigation_bar %}
+						<li	{% if main_active == id %} class="active" {% endif %}	>
+						<a href="{{ href|e }}">{{ caption|e }}</a>
 					</li>
-					<li	{% if selectedNav == "Register" %} class="active" {% endif %}	>
-						<a href="/register">Register</a>
-					</li>
-					<li	{% if selectedNav == "Login" %} class="active" {% endif %}	>
-						{% if loggedIn %}
-						<a href="/logout">Logout</a>
-						{% else %}
-						<a href="/login">Login</a>
-						{% endif %}
-					</li>
+					{% endfor %}
 				</ol>
 			</div>
 		</nav>
