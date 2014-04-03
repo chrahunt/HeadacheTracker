@@ -77,8 +77,8 @@ def addEntry():
 	cur = db.cursor()
 
 	if request.method == "POST":
-		start_datetime = request.form['date'] + " " + request.form['start']
-		end_datetime = request.form['date'] + " " + request.form['end']
+		start_datetime = request.form['startd'] + " " + request.form['startt']
+		end_datetime = request.form['endd'] + " " + request.form['endt']
 		query = "SELECT id FROM users WHERE username='" + session['logged'] + "'"
 		cur.execute(query)
 		user_id = cur.fetchone()
@@ -107,11 +107,12 @@ def homepage():
 	
 	allInfo = userInfo
 
-	query = "SELECT entry_start, entry_end, severity FROM headache_entries WHERE user_id = (SELECT id FROM users WHERE username='" + session['logged'] + "') ORDER BY entry_start DESC"
+	query = "SELECT DATE(entry_start) AS start_date, TIME(entry_start) AS start_time, DATE(entry_end) AS end_date, TIME(entry_end) AS end_time, severity FROM headache_entries WHERE user_id = (SELECT id FROM users WHERE username='" + session['logged'] + "') ORDER BY entry_start DESC"
 	print query
 	cur.execute(query)
 
 	entries = cur.fetchall()
+	print entries[0]
 	
 	return render_template("homepage.html", selectedNav='Home', allInfo=allInfo, entries=entries, loggedIn=True)
 
