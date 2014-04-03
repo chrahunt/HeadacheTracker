@@ -14,10 +14,11 @@ Homepage
   
 <h3>Add occurrence</h3>
 <form class="form-inline" method="POST" action="/add_entry" role="form">
-	<input type="date" class="form-control" name="date"/>
 	<input type="text" class="form-control" placeholder="Symptom" name="symptom"/>
-	<input type="time" class="form-control" placeholder="Start time" name="start"/>
-	<input type="time" class="form-control" placeholder="End time" name="end"/>
+	<input type="date" class="form-control" placeholder="Start date" name="startd"/>
+	<input type="time" class="form-control" placeholder="Start time" name="startt"/>
+	<input type="date" class="form-control" placeholder="End date" name="endd"/>
+	<input type="time" class="form-control" placeholder="End time" name="endt"/>
 	<input type="number" class="form-control" name="severity" min="1" max="10" step="1" value="1"/>
 	<button type="submit" class="btn btn-primary">Add</button>
 </form>
@@ -37,8 +38,10 @@ Homepage
 		<thead>
 			<tr>
 				<th>Symptom</th>
-				<th>Start</th>
-				<th>End</th>
+				<th>Start date</th>
+				<th>Start time</th>
+				<th>End date</th>
+				<th>End time</th>
 				<th>Severity</th>
 			</tr>
 		</thead>
@@ -46,8 +49,10 @@ Homepage
 		{% for entry in entries %}
 			<tr>
 				<td>Headache</td>
-				<td>{{entry.entry_start}}</td>
-				<td>{{entry.entry_end}}</td>
+				<td>{{entry.start_date}}</td>
+				<td>{{entry.start_time}}</td>
+				<td>{{entry.end_date}}</td>
+				<td>{{entry.end_time}}</td>
 				<td>{{entry.severity}}</td>
 			</tr>
 		{% endfor %}
