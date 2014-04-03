@@ -115,7 +115,8 @@ def homepage():
 	cur.execute(query)
 
 	entries = cur.fetchall()
-	print entries[0]
+	if len(entries) > 0:
+		print entries[0]
 	
 	return render_template("homepage.html", allInfo=allInfo, entries=entries, loggedIn=True)
 
